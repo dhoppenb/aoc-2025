@@ -1,3 +1,8 @@
+# Ingnore input files and macos stuff
+**/input.txt
+**/test.txt
+.DS_store
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

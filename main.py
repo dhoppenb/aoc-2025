@@ -1,0 +1,51 @@
+import importlib
+import click
+
+
+def get_solution(day):
+    """Import and instantiate the Solution class for the given day."""
+    day_str = f"{day:02d}"
+    try:
+        module = importlib.import_module(f"days.{day_str}.day{day}")
+        solution_cls = getattr(module, "Solution", None)
+        if solution_cls is None:
+            click.echo(f"No Solution class found in days.{day_str}.day{day}")
+            return None
+        return solution_cls()
+    except ModuleNotFoundError:
+        click.echo(f"No module found for day {day}")
+        return None
+    except Exception as e:
+        click.echo(f"Error loading Solution for day {day}: {e}")
+        return None
+
+@click.group()
+def cli():
+    pass
+
+@cli.command()
+@click.argument('day', type=int)
+def run(day):
+    """Run the solution for the given DAY (int)."""
+    solution = get_solution(day)
+    if solution:
+        solution.run()
+
+@cli.command()
+@click.argument('day', type=int)
+def bench(day):
+    """Run the solution for the given DAY (int)."""
+    solution = get_solution(day)
+    if solution:
+        solution.bench()
+
+@cli.command()
+@click.argument('day', type=int)
+def test(day):
+    """Run the test method for the given DAY (int)."""
+    solution = get_solution(day)
+    if solution:
+        solution.test()
+
+if __name__ == "__main__":
+    cli()
