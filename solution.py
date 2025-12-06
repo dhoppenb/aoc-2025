@@ -1,5 +1,6 @@
 from pathlib import Path
 import time
+import logging
 
 class BaseSolution():
 
@@ -25,6 +26,8 @@ class BaseSolution():
         # fname: str = "test.txt" if test else "input.txt"
         with open(input_file, 'r') as f:
             data: list[str] = f.readlines()
+
+        data = list(map(lambda x: x.rstrip(), data))
         
         return data
     
