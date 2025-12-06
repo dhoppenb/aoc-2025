@@ -27,7 +27,7 @@ class BaseSolution():
         with open(input_file, 'r') as f:
             data: list[str] = f.readlines()
 
-        data = list(map(lambda x: x.rstrip(), data))
+        data = list(map(lambda x: x.rstrip("\n"), data))
         
         return data
     
