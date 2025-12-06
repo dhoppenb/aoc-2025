@@ -1,5 +1,6 @@
 from solution import BaseSolution
 import itertools
+from utils.lists_digits import digitlist_to_number
 
 
 class Solution(BaseSolution):
@@ -68,16 +69,28 @@ class Solution(BaseSolution):
         # test value:   3121910778619
         return result
 
+    # Can also solve the first star if the max length is 2
     def solve2(self, data: list[str]) -> int:
         # remove newline
         data = list(map(lambda x: x.rstrip(), data))
+        result = 0
 
-        # look at digit 0
-        # if digit 0 < digit 1 
-        #   drop it
-        # elif digit 0 == digit 1
-        #   continue with digit 1 and add 1 to the drop count <- hidden choice here
-        # else
-        #   keep digit 0 and continue to digit 1
+        for bank in data:
+            # cast each digit to int
+            bank = list(map(lambda x: int(x), list(bank)))
 
-        return 0
+            stack: list[int] = []
+
+            for i, battery in enumerate(bank):
+
+                remaining_batteries = len(bank) - i -1
+                # drop anything that is accumulated and smalller than current battery
+                while not len(stack) == 0 and battery > stack[-1] and len(stack) + remaining_batteries >= 12:
+                    x = stack.pop()
+                    # print(f"\tPOPPED {x}")
+                if len(stack) < 12:
+                    stack.append(battery)
+                # print(f"\tpost stack ({len(stack)}): {stack}")
+            result += digitlist_to_number(stack)
+            
+        return result
